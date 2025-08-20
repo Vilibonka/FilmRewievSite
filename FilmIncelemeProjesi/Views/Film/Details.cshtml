@@ -1,0 +1,83 @@
+@model FilmIncelemeProjesi.Models.Yorum
+@{
+    var film = (FilmIncelemeProjesi.Models.Film)ViewBag.Film;
+    var yorumlar = (List<FilmIncelemeProjesi.Models.Yorum>)ViewBag.Yorumlar;
+}
+
+<h2>@film.Ad</h2>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <img src="@film.PosterUrl" class="img-fluid rounded" />
+    </div>
+    <div class="col-md-8">
+        <p><strong>Yayın Tarihi:</strong> @film.YayinTarihi.ToString("dd MMM yyyy")</p>
+        <p><strong>Kategori:</strong> @film.Kategori</p>
+        <p>@film.Aciklama</p>
+    </div>
+</div>
+
+<hr />
+
+
+<hr />
+<h4>Ortalama Puan: @Math.Round((double)(ViewBag.OrtalamaPuan ?? 0), 1) / 5</h4>
+
+@if (Context.Session.GetString("KullaniciAdi") != null)
+{
+    <form asp-action="PuanVer" method="post" class="mb-4">
+        <input type="hidden" name="filmId" value="@film.Id" />
+        <div class="mb-3">
+            <label for="puan">Puan Ver:</label>
+            <select name="puan" class="form-select" style="width: 150px;">
+                <option value="1">1 - Çok Kötü</option>
+                <option value="2">2 - Kötü</option>
+                <option value="3">3 - Orta</option>
+                <option value="4">4 - İyi</option>
+                <option value="5">5 - Mükemmel</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-sm btn-success">Gönder</button>
+    </form>
+}
+else
+{
+    <div class="alert alert-info">Puan verebilmek için <a href="/Kullanici/Giris">giriş yapın</a>.</div>
+}
+
+<h4>Yorumlar</h4>
+@if (yorumlar.Any())
+{
+    foreach (var y in yorumlar)
+    {
+        <div class="border rounded p-2 mb-2">
+            <p>@y.YorumMetni</p>
+            <small class="text-muted">@y.Tarih.ToString("g") - <strong>@y.KullaniciAdi</strong></small>
+        </div>
+    }
+}
+else
+{
+    <p>Henüz yorum yapılmamış.</p>
+}
+
+<hr />
+
+@if (Context.Session.GetString("KullaniciAdi") != null)
+{
+    <h4>Yorum Ekle</h4>
+
+    <form asp-action="YorumEkle" method="post">
+        <input type="hidden" name="FilmId" value="@film.Id" />
+        <div class="mb-3">
+            <textarea name="YorumMetni" class="form-control" rows="3" placeholder="Yorumunuzu yazın..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Gönder</button>
+    </form>
+}
+else
+{
+    <div class="alert alert-warning mt-4">
+        Yorum yapabilmek için <a href="/Kullanici/Giris">giriş yapın</a>.
+    </div>
+}

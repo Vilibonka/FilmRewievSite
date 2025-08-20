@@ -1,0 +1,23 @@
+@{
+    ViewData["Title"] = "API ile Film Ekle";
+}
+
+<h2>API ile Film Ekle</h2>
+
+<form asp-action="ApiEkle" method="post">
+    <div class="mb-3">
+        <label class="form-label">Film Adı</label>
+        <input name="filmAdi" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Ara ve Ekle</button>
+</form>
+
+@if (ViewBag.Hata != null)
+{
+    <div class="alert alert-danger mt-3">@ViewBag.Hata</div>
+}
+
+@if (ViewBag.Basarili != null)
+{
+    <div class="alert alert-success mt-3">@ViewBag.Basarili</div>
+}

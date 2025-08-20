@@ -1,0 +1,45 @@
+﻿@model List<FilmIncelemeProjesi.Models.Film>
+@{
+    var kullaniciAdi = Context.Session.GetString("KullaniciAdi");
+}
+
+@if (!string.IsNullOrEmpty(kullaniciAdi))
+{
+    <div class="alert alert-success text-center">
+        Hoş geldin, <strong>@kullaniciAdi</strong>! 🎬 Film önerilerine göz at!
+    </div>
+}
+
+<!-- slider -->
+<div id="filmCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="https://image.tmdb.org/t/p/original/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg" class="d-block w-100" style="height: 400px; object-fit: cover;">
+        </div>
+        <div class="carousel-item">
+            <img src="https://image.tmdb.org/t/p/w500/vobieeFFffYbXjv0rQnQ7uyPQBQ.jpg" class="d-block w-100" style="height: 400px; object-fit: cover;">
+        </div>
+        <div class="carousel-item">
+            <img src="https://image.tmdb.org/t/p/original/kqjL17yufvn9OVLyXYpvtyrFfak.jpg" class="d-block w-100" style="height: 400px; object-fit: cover;">
+        </div>
+    </div>
+</div>
+
+<!-- Yeni eklenen filmler -->
+<h3 class="mb-3">🎬 Yeni Eklenen Filmler</h3>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+@foreach (var film in Model)
+{
+    <div class="col">
+        <div class="card h-100">
+            <img src="@film.PosterUrl" class="card-img-top" style="height: 300px; object-fit: cover;">
+            <div class="card-body">
+                <h5 class="card-title">@film.Ad</h5>
+                <p class="card-text">@film.Aciklama?.Substring(0, Math.Min(80, film.Aciklama.Length))...</p>
+                <a asp-controller="Film" asp-action="Details" asp-route-id="@film.Id" class="btn btn-primary mt-2">Detay</a>
+            </div>
+        </div>
+    </div>
+}
+</div>

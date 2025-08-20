@@ -1,0 +1,22 @@
+<h2>İletişim</h2>
+
+@if (ViewBag.Onay != null)
+{
+    <div class="alert alert-success">Mesajınız gönderildi, teşekkür ederiz!</div>
+}
+
+<form asp-action="IletisimGonder" method="post">
+    <div class="mb-3">
+        <label class="form-label">İsim</label>
+        <input name="isim" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">E-posta</label>
+        <input name="email" type="email" class="form-control" required />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Mesaj</label>
+        <textarea name="mesaj" class="form-control" rows="4" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Gönder</button>
+</form>

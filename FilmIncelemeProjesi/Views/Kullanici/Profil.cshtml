@@ -1,0 +1,25 @@
+@model List<FilmIncelemeProjesi.Models.Yorum>
+@{
+    var kullaniciAdi = Context.Session.GetString("KullaniciAdi");
+}
+
+<h2>@kullaniciAdi - Yorumlarım</h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        Henüz hiç yorum yapmamışsınız.
+    </div>
+}
+else
+{
+    <div class="list-group">
+        @foreach (var yorum in Model)
+        {
+            <div class="list-group-item">
+                <p class="mb-1">@yorum.YorumMetni</p>
+                <small class="text-muted">@yorum.Tarih.ToString("g")</small>
+            </div>
+        }
+    </div>
+}
